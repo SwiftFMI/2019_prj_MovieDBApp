@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		CE24C4A323ED5A670024E0B9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE24C4A223ED5A670024E0B9 /* GoogleService-Info.plist */; };
+		CE50BFED23F1D48D00CF6414 /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE50BFEC23F1D48D00CF6414 /* MovieService.swift */; };
+		CE50BFEF23F1D4AA00CF6414 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE50BFEE23F1D4AA00CF6414 /* Constants.swift */; };
+		CE50BFF123F1D4C800CF6414 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE50BFF023F1D4C800CF6414 /* Utility.swift */; };
 		CE59135F23E2035900A8EBD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59135E23E2035900A8EBD4 /* AppDelegate.swift */; };
 		CE59136123E2035900A8EBD4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE59136023E2035900A8EBD4 /* SceneDelegate.swift */; };
 		CE59136623E2035900A8EBD4 /* Initial.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE59136423E2035900A8EBD4 /* Initial.storyboard */; };
@@ -22,6 +25,9 @@
 		0591E0DCFBE48F225F307C62 /* Pods-MovieDBApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieDBApp.debug.xcconfig"; path = "Target Support Files/Pods-MovieDBApp/Pods-MovieDBApp.debug.xcconfig"; sourceTree = "<group>"; };
 		36587453F533DAD8D3352ABE /* Pods-MovieDBApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieDBApp.release.xcconfig"; path = "Target Support Files/Pods-MovieDBApp/Pods-MovieDBApp.release.xcconfig"; sourceTree = "<group>"; };
 		CE24C4A223ED5A670024E0B9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CE50BFEC23F1D48D00CF6414 /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
+		CE50BFEE23F1D4AA00CF6414 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CE50BFF023F1D4C800CF6414 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		CE59135B23E2035900A8EBD4 /* MovieDBApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieDBApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE59135E23E2035900A8EBD4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE59136023E2035900A8EBD4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,10 +94,13 @@
 				CE59136023E2035900A8EBD4 /* SceneDelegate.swift */,
 				CECDC26E23ED7F0200A9D53D /* Initial */,
 				CECDC27123EDAC6900A9D53D /* Movie.swift */,
+				CE50BFEC23F1D48D00CF6414 /* MovieService.swift */,
 				CE59136723E2035C00A8EBD4 /* Assets.xcassets */,
 				CE59136923E2035C00A8EBD4 /* LaunchScreen.storyboard */,
 				CE59136C23E2035C00A8EBD4 /* Info.plist */,
 				CE24C4A223ED5A670024E0B9 /* GoogleService-Info.plist */,
+				CE50BFEE23F1D4AA00CF6414 /* Constants.swift */,
+				CE50BFF023F1D4C800CF6414 /* Utility.swift */,
 			);
 			path = MovieDBApp;
 			sourceTree = "<group>";
@@ -221,10 +230,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE50BFF123F1D4C800CF6414 /* Utility.swift in Sources */,
 				CE59135F23E2035900A8EBD4 /* AppDelegate.swift in Sources */,
 				CECDC27023ED7F4600A9D53D /* InitialTableViewController.swift in Sources */,
 				CECDC27223EDAC6900A9D53D /* Movie.swift in Sources */,
 				CE59136123E2035900A8EBD4 /* SceneDelegate.swift in Sources */,
+				CE50BFED23F1D48D00CF6414 /* MovieService.swift in Sources */,
+				CE50BFEF23F1D4AA00CF6414 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
