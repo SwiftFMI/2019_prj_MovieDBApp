@@ -10,7 +10,7 @@ import Foundation
 
 class MovieService {
     
-    func getMovies(page: Int, completionHandler: (([Movie]) -> Void)) {
+    func getMovies(page: Int, completionHandler: @escaping (([Movie]) -> Void)) {
         var urlComponents = URLComponents(url: Constants.DISCOVER_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
@@ -23,10 +23,50 @@ class MovieService {
         urlComponents.queryItems = [apiKeyQueryItem, languageQueryItem, sortByQueryItem, includeAdultQueryItem, includeVideoQueryItem, pageQueryItem]
         
         URLSession.shared.dataTask(with: urlComponents.url!) { data,response,error in
-            if let data = data {
-                print(String(data: data, encoding: .utf8))
+            if let error = error {
+                print("Error while downloading movies: \(error.localizedDescription)")
+                completionHandler([])
             }
+            
+            if let response = response as? HTTPURLResponse {
+                switch response.statusCode {
+                case 200: // Success
+                    if let data = data {
+                        do {
+                            let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
+                            completionHandler(responseBody.results)
+                        } catch {
+                            print("Error while decoding movies: \(error.localizedDescription)")
+                        }
+                    }
+                // FIXME: Handle these better
+                case 401:
+                    print("Error while downloading movies: 401 unaithorised")
+                case 404:
+                    print("Error while downloading movies: 404 Not found")
+                default:
+                    print("Error while downloading movies: unexpected response code: \(response.statusCode)")
+                }
+            } else {
+                print("Unexpected response type")
+                completionHandler([])
+            }
+            
         }.resume()
+    }
+    
+    private struct ResponseBody: Decodable {
+        let page: Int
+        let totalResults: Int
+        let totalPages: Int
+        let results: [Movie]
+        
+        enum CodingKeys: String, CodingKey {
+            case page
+            case totalResults = "total_results"
+            case totalPages = "total_pages"
+            case results
+        }
     }
 }
 
