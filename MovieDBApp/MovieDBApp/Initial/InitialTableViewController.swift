@@ -24,6 +24,18 @@ class InitialTableViewController: UITableViewController {
         movieService.getMovies(page: pageReached) { [weak self] (newMovies) in
             self?.movies += newMovies
             self?.pageReached += 1
+            self?.tableView.reloadData()
+        }
+    }
+    
+    // FIXME: Pagination
+    func search(for searchedMovie: String) {
+        if searchedMovie != "" {
+            movieService.search(forMovie: searchedMovie, page: pageReached) { [weak self] (newMovies) in
+                self?.movies = newMovies
+                self?.pageReached += 1
+                self?.tableView.reloadData()
+            }
         }
     }
 

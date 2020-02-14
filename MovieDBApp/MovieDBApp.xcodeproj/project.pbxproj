@@ -95,12 +95,12 @@
 				CECDC26E23ED7F0200A9D53D /* Initial */,
 				CECDC27123EDAC6900A9D53D /* Movie.swift */,
 				CE50BFEC23F1D48D00CF6414 /* MovieService.swift */,
+				CE50BFEE23F1D4AA00CF6414 /* Constants.swift */,
+				CE50BFF023F1D4C800CF6414 /* Utility.swift */,
 				CE59136723E2035C00A8EBD4 /* Assets.xcassets */,
 				CE59136923E2035C00A8EBD4 /* LaunchScreen.storyboard */,
 				CE59136C23E2035C00A8EBD4 /* Info.plist */,
 				CE24C4A223ED5A670024E0B9 /* GoogleService-Info.plist */,
-				CE50BFEE23F1D4AA00CF6414 /* Constants.swift */,
-				CE50BFF023F1D4C800CF6414 /* Utility.swift */,
 			);
 			path = MovieDBApp;
 			sourceTree = "<group>";
