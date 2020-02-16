@@ -10,12 +10,18 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
-    var moviePoster: UIImage? = nil
-    var movieTitle: String = ""
-    var movieDescription: String = ""
+    var movie: Movie!
+    
+    @IBOutlet weak var moviePosterImageView: UIImageView!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var movieDescriptionLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        movieTitleLabel.text = movie.title
+        moviePosterImageView.image = movie.posterLarge
+        movieDescriptionLabel.text = movie.overview
     }
     
 

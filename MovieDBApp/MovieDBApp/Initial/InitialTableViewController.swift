@@ -24,7 +24,9 @@ class InitialTableViewController: UITableViewController {
         movieService.getMovies(page: pageReached) { [weak self] (newMovies) in
             self?.movies += newMovies
             self?.pageReached += 1
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
         }
     }
     
@@ -34,7 +36,9 @@ class InitialTableViewController: UITableViewController {
             movieService.search(forMovie: searchedMovie, page: pageReached) { [weak self] (newMovies) in
                 self?.movies = newMovies
                 self?.pageReached += 1
-                self?.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
             }
         }
     }
@@ -53,7 +57,19 @@ class InitialTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "movieCell", for: indexPath)
 
+        if let cell = cell as? MovieTableViewCell {
+            cell.titleLabel.text = self.movies[indexPath.row].title
+        }
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailsViewController = UIStoryboard(name: "Details", bundle: nil).instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController
+        
+        if detailsViewController != nil {
+            detailsViewController!.movie = self.movies[indexPath.row]
+            navigationController?.pushViewController(detailsViewController!, animated: true)
+        }
     }
 
     /*
