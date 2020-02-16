@@ -14,7 +14,9 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var moviePosterImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var movieReleaseDateLabel: UILabel!
     @IBOutlet weak var movieDescriptionLabel: UILabel!
+    @IBOutlet weak var starRatingView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
