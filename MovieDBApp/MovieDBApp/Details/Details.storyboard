@@ -34,14 +34,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release date: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHR-D9-e53">
+                                <rect key="frame" x="228" y="108" width="166" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="30O-0c-6er" secondAttribute="trailing" constant="20" id="9MO-5C-FDg"/>
                             <constraint firstItem="30O-0c-6er" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="HiT-KV-uP3"/>
                             <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="9lh-Cd-QD1" secondAttribute="trailing" constant="20" id="I88-E0-fKq"/>
+                            <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="iHR-D9-e53" secondAttribute="trailing" constant="20" id="Lvl-zE-9zB"/>
+                            <constraint firstItem="iHR-D9-e53" firstAttribute="top" secondItem="30O-0c-6er" secondAttribute="bottom" constant="8" symbolic="YES" id="NJM-43-XBc"/>
                             <constraint firstItem="9lh-Cd-QD1" firstAttribute="top" secondItem="auJ-xm-CWf" secondAttribute="bottom" constant="8" symbolic="YES" id="Tpd-hL-yVB"/>
                             <constraint firstItem="auJ-xm-CWf" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="VY6-v4-Ilj"/>
+                            <constraint firstItem="iHR-D9-e53" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="bwG-Iu-gFb"/>
                             <constraint firstItem="30O-0c-6er" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="i7E-SX-Sm5"/>
                             <constraint firstItem="9lh-Cd-QD1" firstAttribute="leading" secondItem="Jis-01-0f4" secondAttribute="leading" constant="20" id="on6-GI-acs"/>
                             <constraint firstItem="auJ-xm-CWf" firstAttribute="leading" secondItem="Jis-01-0f4" secondAttribute="leading" constant="20" id="zJ3-Rh-Vci"/>
