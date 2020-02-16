@@ -10,10 +10,12 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
+    var moviePoster: UIImage? = nil
+    var movieTitle: String = ""
+    var movieDescription: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
 
