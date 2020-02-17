@@ -7,16 +7,18 @@
 //
 
 import UIKit
+import HCSStarRatingView
 
 class DetailsViewController: UIViewController {
 
     var movie: Movie!
+    var ratingSystem = RatingSystem()
     
     @IBOutlet weak var moviePosterImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!
     @IBOutlet weak var movieReleaseDateLabel: UILabel!
     @IBOutlet weak var movieDescriptionLabel: UILabel!
-    @IBOutlet weak var starRatingView: UIView!
+    @IBOutlet weak var starRatingView: HCSStarRatingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +26,13 @@ class DetailsViewController: UIViewController {
         movieTitleLabel.text = movie.title
         moviePosterImageView.image = movie.posterLarge
         movieDescriptionLabel.text = movie.overview
+    }
+    
+    deinit {
+        let rating = Int(starRatingView.value)
+        if rating != 0 {
+            ratingSystem.rate(movie: movie, withRating: rating)
+        }
     }
     
 

@@ -15,4 +15,7 @@ target 'MovieDBApp' do
   # add star rating system
   pod 'HCSStarRatingView', '~> 1.5'
 
+  # used in the rating system
+  pod 'Firebase/Database'
+
 end
