@@ -12,4 +12,10 @@ target 'MovieDBApp' do
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
   
+  # add star rating system
+  pod 'HCSStarRatingView', '~> 1.5'
+
+  # used in the rating system
+  pod 'Firebase/Database'
+
 end
