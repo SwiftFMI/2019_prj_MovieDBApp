@@ -1,111 +1,65 @@
 import UIKit
 
 class MoviesTableViewDataSource: NSObject {
-    
-    private var movies = [Movie]() //{
-//        didSet {
-//            DispatchQueue.main.async {
-//                self.moviesTableView?.reloadData()
-//            }
-//        }
-//    }
-    // remove those temp vars
-    var isInSearch = false
-    var text = ""
-    
-    private var searchedMovies = [Movie]()
-    
+    private var movies = [Movie]()
     private var page = 1
     private var movieService = MovieService()
     
     weak private var moviesTableView: UITableView?
     
-    init(text: String? = nil) {
+    init(_ searchPhrase: String? = nil) {
         super.init()
-        if let search = text {
-            self.isInSearch = true
-            self.searchMovies(text: search)
-        } else {
-            self.loadMovies(forPage: self.page)
-        }
-        
+        self.loadDataSource(searchPhrase)
     }
     
     func movieAt(indexPath: IndexPath) -> Movie? {
-        if isInSearch {
-            guard indexPath.row >= 0 && indexPath.row < searchedMovies.count else { return nil }
-            return self.searchedMovies[indexPath.row]
-        }
         guard indexPath.row >= 0 && indexPath.row < movies.count else { return nil }
         return self.movies[indexPath.row]
     }
     
-    func searchMovies(text: String) { // just refactor this hell
-        isInSearch = true
-        let completion: (([Movie]) -> Void) = { [weak self] (newMovies) in
-            self?.searchedMovies = newMovies
-            
-            for movie in self?.searchedMovies ?? [] {
-                movie.posterFilePath { (result) in
-                    switch result {
-                    case .success(let posterPath):
-                        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") else { return }
-                        
-                        UIImage.image(fromURL: url) { (result) in
-                            switch result {
-                            case .success(let image):
-                                movie.poster = image
-                                DispatchQueue.main.async {
-                                    self?.moviesTableView?.reloadData()
+    func loadDataSource(_ searchPhrase: String? = nil) {
+        let moviesCompletion: ((Result<[Movie], Error>) -> Void) = { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                print(error.localizedDescription)
+            case .success(let newMovies):
+                self?.movies.append(contentsOf: newMovies)
+                self?.page += 1
+                
+                for movie in self?.movies ?? [] {
+                    movie.posters { (result) in
+                        switch result {
+                        case .success(let posters):
+                            if let poster = posters.first {
+                                UIImage.image(fromURL: poster.url) {  [weak self] (result) in
+                                    switch result {
+                                    case .success(let image):
+                                        movie.poster = image
+                                        DispatchQueue.main.async {
+                                            self?.moviesTableView?.reloadData()
+                                        }
+                                    case .failure(let error):
+                                        print(error.localizedDescription)
+                                    }
                                 }
-                            case .failure(let error):
-                                print(error.localizedDescription)
                             }
-                        } 
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
                     }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self?.moviesTableView?.reloadData()
-            }
-        }
-        
-        self.movieService.search(forMovie: text, page: 1, completionHandler: completion)
-    }
-    
-    func loadMovies(forPage page: Int) { // just refactor this
-        let completion: (([Movie]) -> Void) = { [weak self] (newMovies) in
-            self?.movies.append(contentsOf: newMovies)
-            self?.page += 1
-            
-            for movie in self?.movies ?? [] {
-                movie.posterFilePath { (result) in
-                    switch result {
-                    case .success(let posterPath):
-                        guard let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") else { return }
-                        
-                        UIImage.image(fromURL: url) { (result) in
-                            switch result {
-                            case .success(let image):
-                                movie.poster = image
-                                DispatchQueue.main.async {
-                                    self?.moviesTableView?.reloadData()
-                                }
-                            case .failure(let error):
-                                print(error.localizedDescription)
-                            }
-                        } 
-                    }
+                
+                DispatchQueue.main.async {
+                    self?.moviesTableView?.reloadData()
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self?.moviesTableView?.reloadData()
-            }
+            } 
         }
         
-        self.movieService.getMovies(page: self.page, completionHandler: completion) 
+        if let searchPhrase = searchPhrase {
+            self.movieService.search(forMovie: searchPhrase, page: self.page, completionHandler: moviesCompletion)
+        } else {
+            self.movieService.getMovies(page: self.page, completionHandler: moviesCompletion)
+        }
     }
 }
 
@@ -124,9 +78,8 @@ extension MoviesTableViewDataSource: UITableViewDataSource {
         let model = self.movieAt(indexPath: indexPath)
         
         cell.titleLabel.text = model?.originalTitle
-        
         cell.posterImageView.image = model?.poster
-        cell.posterImageView.contentMode = .scaleAspectFit  // maybe view model
+        cell.posterImageView.contentMode = .scaleAspectFit
         cell.titleLabel.numberOfLines = 0
         
         return cell

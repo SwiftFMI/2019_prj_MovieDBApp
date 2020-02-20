@@ -9,16 +9,15 @@
 import UIKit
 
 
-class Movie { // could add images in details controller
+class Movie {
     let id: Int
     private let posterFilePath: String?
     let originalTitle: String
     let overview: String
     let title: String
     let releaseDate: String
-//    let images: // could add images in details controller
     
-    var poster: UIImage? // should not be here
+    var poster: UIImage?
     
     init(fromNetworkResponse response: MovieNetworkResponse) {
         self.id = response.id
@@ -29,13 +28,11 @@ class Movie { // could add images in details controller
         self.releaseDate = response.releaseDate
     }
     
-    func posterFilePath(completion: @escaping (Result<String, MoviePosterError>) -> Void) { // remove from here
-        if let poster = self.posterFilePath {
-            completion(.success(poster))
+    func posters(completion: @escaping (Result<[Poster], Error>) -> Void) {
+        if let path = self.posterFilePath {
+            completion(.success([Poster(fromFilePath: path)]))
         } else {
-            MovieService().getMoviePoster(id: self.id) { completion(.success($0)) }
+            MovieService.getMoviePoster(id: self.id, completionHandler: completion)
         }
     }
-    
-    enum MoviePosterError: Error {}
 }

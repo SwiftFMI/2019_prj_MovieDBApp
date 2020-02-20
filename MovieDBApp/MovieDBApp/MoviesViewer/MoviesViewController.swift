@@ -1,25 +1,23 @@
 import UIKit
 
 class MoviesViewController: UIViewController {
-    private var moviesDataSource: MoviesTableViewDataSource!
+    private var moviesDataSource: MoviesTableViewDataSource? = nil
     
     @IBOutlet weak var moviesTableView: UITableView!
     
-    var isInSearchMode = false
-    
     override func viewDidLoad() {
-        
-        //        self.moviesTableView.prefetchDataSource = self.moviesDataSource
-        self.moviesTableView.delegate = self
-        
-        if isInSearchMode {
-            self.moviesDataSource = MoviesTableViewDataSource(text: self.title)
-        } else {
+        if self.moviesDataSource == nil {
             self.moviesDataSource = MoviesTableViewDataSource()
             self.configAsDefault()
         }
         
+        self.moviesTableView.delegate = self
         self.moviesTableView.dataSource = self.moviesDataSource
+        //        self.moviesTableView.prefetchDataSource = self.moviesDataSource
+    }
+    
+    private func addDataSource(_ dataSource: MoviesTableViewDataSource) {
+        self.moviesDataSource = dataSource
     }
 }
 
@@ -27,7 +25,7 @@ extension MoviesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailsViewController = UIStoryboard(name: "Details", bundle: nil).instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController else { return }
         
-        detailsViewController.movie = self.moviesDataSource.movieAt(indexPath: indexPath)
+        detailsViewController.movie = self.moviesDataSource?.movieAt(indexPath: indexPath)
         navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
@@ -36,25 +34,12 @@ extension MoviesViewController: UITableViewDelegate {
     }
 }
 
-extension MoviesViewController: UISearchControllerDelegate {
-    func willPresentSearchController(_ searchController: UISearchController) {
-
-    }
-}
-
-//extension MoviesViewController: UISearchResultsUpdating {
-////    func updateSearchResults(for searchController: UISearchController) {
-////        guard let text = searchController.searchBar.text, !text.isEmpty else { return }
-//////        self.moviesDataSource.searchMovies(text: text)
-//    }
-//}
-
 extension MoviesViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {        
         guard let detailsViewController = UIStoryboard(name: "Initial", bundle: nil).instantiateViewController(withIdentifier: "MoviesViewControllerID") as? MoviesViewController else { return }
         
-        detailsViewController.title = searchBar.text!
-        detailsViewController.isInSearchMode = true
+        detailsViewController.title = "Results."
+        detailsViewController.addDataSource(MoviesTableViewDataSource(searchBar.text!))
         self.navigationController?.pushViewController(detailsViewController, animated: true)
     }
 }

@@ -11,17 +11,20 @@ import Firebase
 
 class RatingSystem {
     
-    func rate(movie: Movie, withRating rating: Int) {
-        var ref: DatabaseReference!
-        ref = Database.database().reference()
-        
+    static func rate(movie: Movie, withRating rating: Int) {
+        let ref = Database.database().reference()
         guard let key = ref.child("movie_ratings").childByAutoId().key else { return }
         
-        let post = [ "name":movie.title, "rating":rating ] as [String:Any]
+        let post = ["name" : movie.title,
+                    "rating" : rating] as [String : Any]
         
-        let childUpdates = ["/ratings/\(key)":post,
-                            "/movie-ratings/\(movie.title)/\(key)/":post]
+        let childUpdates = ["/ratings/\(key)" : post,
+                            "/movie-ratings/\(movie.title)/\(key)/" : post]
+        
         ref.updateChildValues(childUpdates)
-        
+    }
+    
+    static func getRating(forMovie movie: Movie) -> Double {
+        return 2.5
     }
 }

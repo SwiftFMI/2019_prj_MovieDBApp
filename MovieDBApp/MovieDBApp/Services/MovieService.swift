@@ -8,38 +8,33 @@
 
 import Foundation
 
-class MovieService { // for refactoring, again; alll of the methods are identical
+class MovieService {
     
-    func getMoviePoster(id: Int, completionHandler: @escaping ((String) -> Void)) {
+    static func getMoviePoster(id: Int, completionHandler: @escaping ((Result<[Poster], Error>) -> Void)) {
         var urlComponents = URLComponents(url: Constants.MOVIE_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
         
-        
         urlComponents.queryItems = [apiKeyQueryItem]
-        guard let url = urlComponents.url?.appendingPathComponent("\(id)/images") else { completionHandler("fuck.jpg"); return }
+        let url = urlComponents.url!.appendingPathComponent("\(id)/images")
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let response = response as? HTTPURLResponse {
-                switch response.statusCode {
-                case 200: // Success
-                    if let data = data {
-                        do {
-                            let movieResponseBody = try JSONDecoder().decode(MovieImagesNetworkResponse.self, from: data)
-                            completionHandler(movieResponseBody.posters.first?.filePath ?? "fuck.jpg")
-                        } catch {
-                            print("Error while decoding movies: \(error.localizedDescription)")
-                        }
-                    }
-                    print(response)
-                default:
-                    print("Error while downloading posters: unexpected response code: \(response.statusCode)")
+        URLSession.shared.dataTask(with: url) { (result) in
+            switch result {
+            case .success(let data):
+                do {
+                    let responseBody = try JSONDecoder().decode(MovieImagesNetworkResponse.self, from: data)
+                    let posters = responseBody.posters.map { Poster(fromNetworkResponse: $0) }
+                    completionHandler(.success(posters))
+                } catch {
+                    completionHandler(.failure(error))
                 }
-            }
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }   
         }.resume()
     }
     
-    func getMovies(page: Int, completionHandler: @escaping (([Movie]) -> Void)) {
+    func getMovies(page: Int, completionHandler: @escaping ((Result<[Movie], Error>) -> Void)) {
         var urlComponents = URLComponents(url: Constants.DISCOVER_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
@@ -51,44 +46,23 @@ class MovieService { // for refactoring, again; alll of the methods are identica
         
         urlComponents.queryItems = [apiKeyQueryItem, languageQueryItem, sortByQueryItem, includeAdultQueryItem, includeVideoQueryItem, pageQueryItem]
         
-        URLSession.shared.dataTask(with: urlComponents.url!) { data,response,error in
-            if let error = error {
-                print("Error while downloading movies: \(error.localizedDescription)")
-                completionHandler([])
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                switch response.statusCode {
-                case 200: // Success
-                    if let data = data {
-                        do {
-                            let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
-                            let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
-                            completionHandler(movies)
-                        } catch {
-                            print("Error while decoding movies: \(error.localizedDescription)")
-                        }
-                    }
-                // FIXME: Handle these better
-                case 401:
-                    print("Error while downloading movies: 401 unaithorised")
-                case 404:
-                    print("Error while downloading movies: 404 Not found")
-                case 422:
-                    print("asd")
-                    print(response)
-                default:
-                    print("Error while downloading movies: unexpected response code: \(response.statusCode)")
+        URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
+            switch result {
+            case .success(let data):
+                do {
+                    let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
+                    let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
+                    completionHandler(.success(movies))
+                } catch {
+                    completionHandler(.failure(error))
                 }
-            } else {
-                print("Unexpected response type")
-                completionHandler([])
-            }
-            
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }   
         }.resume()
     }
     
-    func search(forMovie searchedMovie: String, page: Int, completionHandler: @escaping (([Movie]) -> Void)) {
+    func search(forMovie searchedMovie: String, page: Int, completionHandler: @escaping ((Result<[Movie], Error>) -> Void)) {
         var urlComponents = URLComponents(url: Constants.SEARCH_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
@@ -99,38 +73,19 @@ class MovieService { // for refactoring, again; alll of the methods are identica
         
         urlComponents.queryItems = [apiKeyQueryItem, languageQueryItem, newMovieQueryItem, pageQueryItem, includeAdultQueryItem]
         
-        URLSession.shared.dataTask(with: urlComponents.url!) { data,response,error in
-            if let error = error {
-                print("Error while downloading movies: \(error.localizedDescription)")
-                completionHandler([])
-            }
-            
-            if let response = response as? HTTPURLResponse {
-                switch response.statusCode {
-                case 200: // Success
-                    if let data = data {
-                        do {
-                            let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
-                            let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
-                            completionHandler(movies)
-                        } catch {
-                            print("Error while decoding movies: \(error.localizedDescription)")
-                        }
-                    }
-                // FIXME: Handle these better
-                case 401: // Unauthorised
-                    print("Error while downloading movies: 401 Unaithorised")
-                case 404: // Not Found
-                    print("Error while downloading movies: 404 Not Found")
-                default:
-                    print("Error while downloading movies: unexpected response code: \(response.statusCode)")
+        URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
+            switch result {
+            case .success(let data):
+                do {
+                    let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
+                    let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
+                    completionHandler(.success(movies))
+                } catch {
+                    completionHandler(.failure(error))
                 }
-            } else {
-                print("Unexpected response type")
-                completionHandler([])
-            }
-            
+            case .failure(let error):
+                completionHandler(.failure(error))
+            }   
         }.resume()
     }
 }
-

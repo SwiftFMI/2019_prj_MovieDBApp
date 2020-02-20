@@ -10,12 +10,11 @@ import UIKit
 import HCSStarRatingView
 
 class DetailsViewController: UIViewController {
-
-    var movie: Movie?
-    var ratingSystem = RatingSystem()
     
-    @IBOutlet weak var moviePosterImageView: UIImageView!
-    @IBOutlet weak var movieReleaseDateLabel: UILabel!
+    var movie: Movie?
+    
+    @IBOutlet weak var posterImageView: UIImageView!
+    @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var starRatingView: HCSStarRatingView!
     
@@ -24,14 +23,15 @@ class DetailsViewController: UIViewController {
         
         self.title = movie?.title
         descriptionTextView.text = movie?.overview
-        moviePosterImageView.image = movie?.poster
-        movieReleaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
+        posterImageView.image = movie?.poster
+        releaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
+        //add rating label
     }
     
     deinit {
         let rating = Int(starRatingView.value)
         if rating != 0 {
-            ratingSystem.rate(movie: movie!, withRating: rating)
+            RatingSystem.rate(movie: movie!, withRating: rating)
         }
     }
 }

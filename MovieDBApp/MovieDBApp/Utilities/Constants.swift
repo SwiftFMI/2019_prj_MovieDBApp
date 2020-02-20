@@ -29,4 +29,8 @@ final class Constants {
     static var MOVIE_URL: URL {
         return BASE_URL.appendingPathComponent(MOVIE_ENDPOINT)
     }
+    
+    static var POSTER_BASE_URL: URL {
+        return URL(string: "https://image.tmdb.org/t/p/w500/")!
+    }
 }
