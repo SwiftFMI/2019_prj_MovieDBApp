@@ -8,7 +8,36 @@
 
 import Foundation
 
-class MovieService {
+class MovieService { // for refactoring, again; alll of the methods are identical
+    
+    func getMoviePoster(id: Int, completionHandler: @escaping ((String) -> Void)) {
+        var urlComponents = URLComponents(url: Constants.MOVIE_URL)!
+        
+        let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
+        
+        
+        urlComponents.queryItems = [apiKeyQueryItem]
+        guard let url = urlComponents.url?.appendingPathComponent("\(id)/images") else { completionHandler("fuck.jpg"); return }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let response = response as? HTTPURLResponse {
+                switch response.statusCode {
+                case 200: // Success
+                    if let data = data {
+                        do {
+                            let movieResponseBody = try JSONDecoder().decode(MovieImagesNetworkResponse.self, from: data)
+                            completionHandler(movieResponseBody.posters.first?.filePath ?? "fuck.jpg")
+                        } catch {
+                            print("Error while decoding movies: \(error.localizedDescription)")
+                        }
+                    }
+                    print(response)
+                default:
+                    print("Error while downloading posters: unexpected response code: \(response.statusCode)")
+                }
+            }
+        }.resume()
+    }
     
     func getMovies(page: Int, completionHandler: @escaping (([Movie]) -> Void)) {
         var urlComponents = URLComponents(url: Constants.DISCOVER_URL)!
@@ -33,8 +62,9 @@ class MovieService {
                 case 200: // Success
                     if let data = data {
                         do {
-                            let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
-                            completionHandler(responseBody.results)
+                            let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
+                            let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
+                            completionHandler(movies)
                         } catch {
                             print("Error while decoding movies: \(error.localizedDescription)")
                         }
@@ -44,6 +74,9 @@ class MovieService {
                     print("Error while downloading movies: 401 unaithorised")
                 case 404:
                     print("Error while downloading movies: 404 Not found")
+                case 422:
+                    print("asd")
+                    print(response)
                 default:
                     print("Error while downloading movies: unexpected response code: \(response.statusCode)")
                 }
@@ -77,8 +110,9 @@ class MovieService {
                 case 200: // Success
                     if let data = data {
                         do {
-                            let responseBody = try JSONDecoder().decode(ResponseBody.self, from: data)
-                            completionHandler(responseBody.results)
+                            let responseBody = try JSONDecoder().decode(MoviesNetworkResponse.self, from: data)
+                            let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
+                            completionHandler(movies)
                         } catch {
                             print("Error while decoding movies: \(error.localizedDescription)")
                         }
@@ -97,20 +131,6 @@ class MovieService {
             }
             
         }.resume()
-    }
-    
-    private struct ResponseBody: Decodable {
-        let page: Int
-        let totalResults: Int
-        let totalPages: Int
-        let results: [Movie]
-        
-        enum CodingKeys: String, CodingKey {
-            case page
-            case totalResults = "total_results"
-            case totalPages = "total_pages"
-            case results
-        }
     }
 }
 

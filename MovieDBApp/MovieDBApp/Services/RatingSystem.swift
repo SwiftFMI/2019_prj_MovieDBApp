@@ -12,9 +12,9 @@ import Firebase
 class RatingSystem {
     
     func rate(movie: Movie, withRating rating: Int) {
-        var ref: DatabaseReference!
+//        var ref: DatabaseReference!
 
-        ref = Database.database().reference()
+//        ref = Database.database().reference()
         
         // MARK: Save data
     }

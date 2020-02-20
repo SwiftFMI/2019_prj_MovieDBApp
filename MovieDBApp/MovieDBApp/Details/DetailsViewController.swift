@@ -11,7 +11,7 @@ import HCSStarRatingView
 
 class DetailsViewController: UIViewController {
 
-    var movie: Movie!
+    var movie: Movie?
     var ratingSystem = RatingSystem()
     
     @IBOutlet weak var moviePosterImageView: UIImageView!
@@ -23,27 +23,16 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieTitleLabel.text = movie.title
-        moviePosterImageView.image = movie.posterLarge
-        movieDescriptionLabel.text = movie.overview
+        movieTitleLabel.text = movie?.title
+        movieDescriptionLabel.text = movie?.overview
+        moviePosterImageView.image = movie?.poster
+        movieReleaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
     }
     
     deinit {
         let rating = Int(starRatingView.value)
         if rating != 0 {
-            ratingSystem.rate(movie: movie, withRating: rating)
+            ratingSystem.rate(movie: movie!, withRating: rating)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
