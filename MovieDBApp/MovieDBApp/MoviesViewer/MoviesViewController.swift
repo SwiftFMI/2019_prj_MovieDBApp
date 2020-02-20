@@ -11,9 +11,10 @@ class MoviesViewController: UIViewController {
             self.configAsDefault()
         }
         
+        self.moviesDataSource?.delegate = self
         self.moviesTableView.delegate = self
         self.moviesTableView.dataSource = self.moviesDataSource
-        //        self.moviesTableView.prefetchDataSource = self.moviesDataSource
+        self.moviesTableView.prefetchDataSource = self.moviesDataSource
     }
     
     private func addDataSource(_ dataSource: MoviesTableViewDataSource) {
@@ -54,5 +55,13 @@ extension MoviesViewController {
         searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         definesPresentationContext = true
+    }
+}
+
+extension MoviesViewController: DataSourceChanged {
+    func dataSourceChanged() {
+        DispatchQueue.main.async {
+            self.moviesTableView.reloadData()
+        }
     }
 }

@@ -10,6 +10,8 @@ import Foundation
 
 class MovieService {
     
+    var fetchingMoviesTask: URLSessionTask?
+    
     static func getMoviePoster(id: Int, completionHandler: @escaping ((Result<[Poster], Error>) -> Void)) {
         var urlComponents = URLComponents(url: Constants.MOVIE_URL)!
         
@@ -34,7 +36,12 @@ class MovieService {
         }.resume()
     }
     
-    func getMovies(page: Int, completionHandler: @escaping ((Result<[Movie], Error>) -> Void)) {
+    func getMovies(page: Int, completionHandler: @escaping ((Result<[Movie], FetchingError>) -> Void)) {
+        guard self.fetchingMoviesTask?.state != .some(.running) else { 
+            completionHandler(.failure(.alreadyActive))
+            return
+        }
+        
         var urlComponents = URLComponents(url: Constants.DISCOVER_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
@@ -46,7 +53,7 @@ class MovieService {
         
         urlComponents.queryItems = [apiKeyQueryItem, languageQueryItem, sortByQueryItem, includeAdultQueryItem, includeVideoQueryItem, pageQueryItem]
         
-        URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
+        self.fetchingMoviesTask = URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
             switch result {
             case .success(let data):
                 do {
@@ -54,15 +61,22 @@ class MovieService {
                     let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
                     completionHandler(.success(movies))
                 } catch {
-                    completionHandler(.failure(error))
+                    completionHandler(.failure(.decodingError))
                 }
-            case .failure(let error):
-                completionHandler(.failure(error))
+            case .failure(_):
+                completionHandler(.failure(.networkError))
             }   
-        }.resume()
+        }
+        
+        self.fetchingMoviesTask?.resume()
     }
     
-    func search(forMovie searchedMovie: String, page: Int, completionHandler: @escaping ((Result<[Movie], Error>) -> Void)) {
+    func search(forMovie searchedMovie: String, page: Int, completionHandler: @escaping ((Result<[Movie], FetchingError>) -> Void)) {
+        guard self.fetchingMoviesTask?.state != .some(.running) else { 
+            completionHandler(.failure(.alreadyActive))
+            return
+        }
+        
         var urlComponents = URLComponents(url: Constants.SEARCH_URL)!
         
         let apiKeyQueryItem = URLQueryItem(name: "api_key", value: Constants.API_KEY)
@@ -73,7 +87,7 @@ class MovieService {
         
         urlComponents.queryItems = [apiKeyQueryItem, languageQueryItem, newMovieQueryItem, pageQueryItem, includeAdultQueryItem]
         
-        URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
+        self.fetchingMoviesTask = URLSession.shared.dataTask(with: urlComponents.url!) { (result) in
             switch result {
             case .success(let data):
                 do {
@@ -81,11 +95,16 @@ class MovieService {
                     let movies = responseBody.results.map { Movie(fromNetworkResponse: $0) }
                     completionHandler(.success(movies))
                 } catch {
-                    completionHandler(.failure(error))
+                    completionHandler(.failure(.decodingError))
                 }
-            case .failure(let error):
-                completionHandler(.failure(error))
+            case .failure(_):
+                completionHandler(.failure(.networkError))
             }   
-        }.resume()
+        }
+        
+        self.fetchingMoviesTask?.resume()
     }
+}
+enum FetchingError: Error {
+    case alreadyActive, networkError, decodingError
 }

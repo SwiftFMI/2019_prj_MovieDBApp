@@ -1,13 +1,20 @@
 import UIKit
 
+protocol DataSourceChanged: class {
+    func dataSourceChanged() -> Void
+}
+
 class MoviesTableViewDataSource: NSObject {
     private var movies = [Movie]()
     private var page = 1
-    private var movieService = MovieService()
     
-    weak private var moviesTableView: UITableView?
+    private let movieService = MovieService()
+    private let searchPhrase: String?
+    
+    weak var delegate: DataSourceChanged?
     
     init(_ searchPhrase: String? = nil) {
+        self.searchPhrase = searchPhrase
         super.init()
         self.loadDataSource(searchPhrase)
     }
@@ -18,7 +25,28 @@ class MoviesTableViewDataSource: NSObject {
     }
     
     func loadDataSource(_ searchPhrase: String? = nil) {
-        let moviesCompletion: ((Result<[Movie], Error>) -> Void) = { [weak self] (result) in
+        let posterCompletion: ((IndexPath) -> ((Result<[Poster], Error>) -> Void)) = { (indexPath) in
+            return { [weak self] (result) in
+                switch result {
+                case .success(let posters):
+                    if let poster = posters.first {
+                        UIImage.image(fromURL: poster.url) {  [weak self] (result) in
+                            switch result {
+                            case .success(let image):
+                                self?.movieAt(indexPath: indexPath)?.poster = image
+                                self?.delegate?.dataSourceChanged()
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        
+        let moviesCompletion: ((Result<[Movie], FetchingError>) -> Void) = { [weak self] (result) in
             switch result {
             case .failure(let error):
                 print(error.localizedDescription)
@@ -26,31 +54,10 @@ class MoviesTableViewDataSource: NSObject {
                 self?.movies.append(contentsOf: newMovies)
                 self?.page += 1
                 
-                for movie in self?.movies ?? [] {
-                    movie.posters { (result) in
-                        switch result {
-                        case .success(let posters):
-                            if let poster = posters.first {
-                                UIImage.image(fromURL: poster.url) {  [weak self] (result) in
-                                    switch result {
-                                    case .success(let image):
-                                        movie.poster = image
-                                        DispatchQueue.main.async {
-                                            self?.moviesTableView?.reloadData()
-                                        }
-                                    case .failure(let error):
-                                        print(error.localizedDescription)
-                                    }
-                                }
-                            }
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                        }
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self?.moviesTableView?.reloadData()
+                for index in 0...(self?.movies.count ?? 0) {
+                    let indexPath = IndexPath.init(row: index, section: 0)
+                    let movie = self?.movieAt(indexPath: indexPath)
+                    movie?.posters(completion: posterCompletion(indexPath))
                 }
             } 
         }
@@ -69,7 +76,6 @@ extension MoviesTableViewDataSource: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.moviesTableView = tableView
         return self.movies.count
     }
     
@@ -87,6 +93,11 @@ extension MoviesTableViewDataSource: UITableViewDataSource {
 }
 
 extension MoviesTableViewDataSource: UITableViewDataSourcePrefetching {
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {}
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        if let row = indexPaths.max()?.row, row > self.movies.count - 5 {
+            self.loadDataSource(self.searchPhrase)
+            print("Will load page \(self.page)")
+        }
+    }
 }
 
