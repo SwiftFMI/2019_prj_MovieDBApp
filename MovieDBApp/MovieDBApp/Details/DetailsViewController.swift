@@ -16,14 +16,14 @@ class DetailsViewController: UIViewController {
     
     @IBOutlet weak var moviePosterImageView: UIImageView!
     @IBOutlet weak var movieReleaseDateLabel: UILabel!
-    @IBOutlet weak var movieDescriptionLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var starRatingView: HCSStarRatingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = movie?.title
-        movieDescriptionLabel.text = movie?.overview
+        descriptionTextView.text = movie?.overview
         moviePosterImageView.image = movie?.poster
         movieReleaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
     }
