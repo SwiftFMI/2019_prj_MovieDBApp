@@ -22,12 +22,6 @@
                                     <constraint firstAttribute="width" constant="200" id="RHq-wj-dj8"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30O-0c-6er">
-                                <rect key="frame" x="228" y="64" width="166" height="25.5"/>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="21"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lh-Cd-QD1">
                                 <rect key="frame" x="20" y="368.5" width="374" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -35,28 +29,25 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release date: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHR-D9-e53">
-                                <rect key="frame" x="228" y="97.5" width="166" height="18"/>
+                                <rect key="frame" x="228" y="64" width="166" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOY-xw-y6G" customClass="HCSStarRatingView">
-                                <rect key="frame" x="228" y="123.5" width="166" height="44"/>
+                                <rect key="frame" x="228" y="90" width="166" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="TOY-xw-y6G" firstAttribute="top" secondItem="iHR-D9-e53" secondAttribute="bottom" constant="8" symbolic="YES" id="7Md-tm-5XG"/>
-                            <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="30O-0c-6er" secondAttribute="trailing" constant="20" id="9MO-5C-FDg"/>
-                            <constraint firstItem="30O-0c-6er" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="HiT-KV-uP3"/>
                             <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="9lh-Cd-QD1" secondAttribute="trailing" constant="20" id="I88-E0-fKq"/>
                             <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="iHR-D9-e53" secondAttribute="trailing" constant="20" id="Lvl-zE-9zB"/>
-                            <constraint firstItem="iHR-D9-e53" firstAttribute="top" secondItem="30O-0c-6er" secondAttribute="bottom" constant="8" symbolic="YES" id="NJM-43-XBc"/>
+                            <constraint firstItem="iHR-D9-e53" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="NzQ-gY-UCW"/>
                             <constraint firstItem="9lh-Cd-QD1" firstAttribute="top" secondItem="auJ-xm-CWf" secondAttribute="bottom" constant="8" symbolic="YES" id="Tpd-hL-yVB"/>
                             <constraint firstItem="auJ-xm-CWf" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="VY6-v4-Ilj"/>
                             <constraint firstItem="iHR-D9-e53" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="bwG-Iu-gFb"/>
-                            <constraint firstItem="30O-0c-6er" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="i7E-SX-Sm5"/>
                             <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="TOY-xw-y6G" secondAttribute="trailing" constant="20" id="nkr-Tb-cEZ"/>
                             <constraint firstItem="9lh-Cd-QD1" firstAttribute="leading" secondItem="Jis-01-0f4" secondAttribute="leading" constant="20" id="on6-GI-acs"/>
                             <constraint firstItem="TOY-xw-y6G" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="xrv-he-qhO"/>
@@ -68,7 +59,6 @@
                         <outlet property="movieDescriptionLabel" destination="9lh-Cd-QD1" id="SEb-DI-Nh3"/>
                         <outlet property="moviePosterImageView" destination="auJ-xm-CWf" id="U8H-SH-a4d"/>
                         <outlet property="movieReleaseDateLabel" destination="iHR-D9-e53" id="68Y-Ru-xG3"/>
-                        <outlet property="movieTitleLabel" destination="30O-0c-6er" id="NOB-nu-FfW"/>
                         <outlet property="starRatingView" destination="TOY-xw-y6G" id="xqJ-YW-T1O"/>
                     </connections>
                 </viewController>
