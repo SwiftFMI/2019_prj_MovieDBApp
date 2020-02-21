@@ -21,10 +21,10 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = movie?.title
-        descriptionTextView.text = movie?.overview
-        posterImageView.image = movie?.poster
-        releaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
+        self.title = self.movie?.title
+        self.descriptionTextView.text = self.movie?.overview
+        self.posterImageView.image = self.movie?.poster
+        self.releaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
         //add rating label
     }
     

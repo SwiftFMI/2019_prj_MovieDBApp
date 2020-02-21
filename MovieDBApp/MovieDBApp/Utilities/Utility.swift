@@ -6,7 +6,6 @@
 //  Copyright © 2020 TwoGirlsOneApp. All rights reserved.
 //
 
- // maybe remove the whole file 
 import UIKit
 
 extension URL {
@@ -21,9 +20,9 @@ extension URLComponents {
     }
 }
 
-extension UIImage { // should not be here
-    static func image(fromURL url: URL, completion: @escaping ((Result<UIImage, ImageError>) -> Void)) {
-        guard let data = try? Data(contentsOf: url) else { 
+extension UIImage {
+    static func image(fromURL url: URL?, completion: @escaping ((Result<UIImage, ImageError>) -> Void)) {
+        guard let url = url, let data = try? Data(contentsOf: url) else { 
             completion(.failure(.cannotReadFromURL))
             return
         }

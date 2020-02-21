@@ -85,8 +85,6 @@ extension MoviesTableViewDataSource: UITableViewDataSource {
         
         cell.titleLabel.text = model?.originalTitle
         cell.posterImageView.image = model?.poster
-        cell.posterImageView.contentMode = .scaleAspectFit
-        cell.titleLabel.numberOfLines = 0
         
         return cell
     }
