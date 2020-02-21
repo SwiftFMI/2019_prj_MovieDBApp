@@ -10,40 +10,28 @@ import UIKit
 import HCSStarRatingView
 
 class DetailsViewController: UIViewController {
-
-    var movie: Movie!
-    var ratingSystem = RatingSystem()
     
-    @IBOutlet weak var moviePosterImageView: UIImageView!
-    @IBOutlet weak var movieTitleLabel: UILabel!
-    @IBOutlet weak var movieReleaseDateLabel: UILabel!
-    @IBOutlet weak var movieDescriptionLabel: UILabel!
+    var movie: Movie?
+    
+    @IBOutlet weak var posterImageView: UIImageView!
+    @IBOutlet weak var releaseDateLabel: UILabel!
+    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var starRatingView: HCSStarRatingView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieTitleLabel.text = movie.title
-        moviePosterImageView.image = movie.posterLarge
-        movieDescriptionLabel.text = movie.overview
+        self.title = self.movie?.title
+        self.descriptionTextView.text = self.movie?.overview
+        self.posterImageView.image = self.movie?.poster
+        self.releaseDateLabel.text?.append(contentsOf: movie?.releaseDate.replacingOccurrences(of: "_", with: ".") ?? "")
+        //add rating label
     }
     
     deinit {
         let rating = Int(starRatingView.value)
         if rating != 0 {
-            ratingSystem.rate(movie: movie, withRating: rating)
+            RatingSystem.rate(movie: movie!, withRating: rating)
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
