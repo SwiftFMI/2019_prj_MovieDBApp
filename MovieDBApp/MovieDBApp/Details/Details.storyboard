@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CfA-iv-grV">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Details View Controller-->
+        <scene sceneID="y50-bl-xks">
+            <objects>
+                <viewController storyboardIdentifier="DetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="CfA-iv-grV" customClass="DetailsViewController" customModule="MovieDBApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BT4-kV-kC0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Test" translatesAutoresizingMaskIntoConstraints="NO" id="auJ-xm-CWf">
+                                <rect key="frame" x="20" y="20" width="200" height="296.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="auJ-xm-CWf" secondAttribute="height" multiplier="27:40" id="6qN-he-Rmv"/>
+                                    <constraint firstAttribute="width" constant="200" id="RHq-wj-dj8"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release date: " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHR-D9-e53">
+                                <rect key="frame" x="228" y="20" width="352" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOY-xw-y6G" customClass="HCSStarRatingView">
+                                <rect key="frame" x="228" y="90" width="352" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JKR-b7-cTU" userLabel="Description Text View">
+                                <rect key="frame" x="20" y="324.5" width="560" height="255.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="TOY-xw-y6G" firstAttribute="top" secondItem="iHR-D9-e53" secondAttribute="bottom" constant="8" symbolic="YES" id="7Md-tm-5XG"/>
+                            <constraint firstItem="Jis-01-0f4" firstAttribute="bottom" secondItem="JKR-b7-cTU" secondAttribute="bottom" constant="20" id="Cod-QE-alO"/>
+                            <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="JKR-b7-cTU" secondAttribute="trailing" constant="20" id="GYi-le-aKf"/>
+                            <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="iHR-D9-e53" secondAttribute="trailing" constant="20" id="Lvl-zE-9zB"/>
+                            <constraint firstItem="iHR-D9-e53" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="NzQ-gY-UCW"/>
+                            <constraint firstItem="auJ-xm-CWf" firstAttribute="top" secondItem="Jis-01-0f4" secondAttribute="top" constant="20" id="VY6-v4-Ilj"/>
+                            <constraint firstItem="JKR-b7-cTU" firstAttribute="top" secondItem="auJ-xm-CWf" secondAttribute="bottom" constant="8" symbolic="YES" id="Vbn-d1-z5a"/>
+                            <constraint firstItem="iHR-D9-e53" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="bwG-Iu-gFb"/>
+                            <constraint firstItem="JKR-b7-cTU" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="leading" id="nAZ-L3-oqO"/>
+                            <constraint firstItem="Jis-01-0f4" firstAttribute="trailing" secondItem="TOY-xw-y6G" secondAttribute="trailing" constant="20" id="nkr-Tb-cEZ"/>
+                            <constraint firstItem="TOY-xw-y6G" firstAttribute="leading" secondItem="auJ-xm-CWf" secondAttribute="trailing" constant="8" symbolic="YES" id="xrv-he-qhO"/>
+                            <constraint firstItem="auJ-xm-CWf" firstAttribute="leading" secondItem="Jis-01-0f4" secondAttribute="leading" constant="20" id="zJ3-Rh-Vci"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Jis-01-0f4"/>
+                    </view>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="JKR-b7-cTU" id="o0U-5e-sl8"/>
+                        <outlet property="posterImageView" destination="auJ-xm-CWf" id="U8H-SH-a4d"/>
+                        <outlet property="releaseDateLabel" destination="iHR-D9-e53" id="68Y-Ru-xG3"/>
+                        <outlet property="starRatingView" destination="TOY-xw-y6G" id="xqJ-YW-T1O"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7w2-3R-zdm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-365" y="72"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Test" width="110" height="163"/>
+    </resources>
+</document>

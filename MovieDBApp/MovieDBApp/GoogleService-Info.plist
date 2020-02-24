@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>848194419103-tnia5tncklutibe1a3b8pvnsb4hos6ng.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.848194419103-tnia5tncklutibe1a3b8pvnsb4hos6ng</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCEJy_rfpwibn1q74H-yzZ14NWTKAarBAM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>848194419103</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>edu.twogirlsoneapp.MovieDBApp</string>
+	<key>PROJECT_ID</key>
+	<string>moviedbapp-f00d2</string>
+	<key>STORAGE_BUCKET</key>
+	<string>moviedbapp-f00d2.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:848194419103:ios:9a7e6c7ce4b3679fb2a5aa</string>
+	<key>DATABASE_URL</key>
+	<string>https://moviedbapp-f00d2.firebaseio.com</string>
+</dict>
+</plist>
